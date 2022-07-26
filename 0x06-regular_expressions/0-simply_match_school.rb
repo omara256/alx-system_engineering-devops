@@ -1,2 +1,4 @@
 #!/usr/bin/env ruby
-puts ARGV[0].scan(/School/).join
+# Regular expression to match Holberton
+
+puts ARGV[0].scan(/Holberton/).join

@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+# Configure domain zone so that the subdomain www points to load balancer
+
+world_wide_web ()
+{
+	dig "$2"."$1" | grep -A1 'ANSWER SECTION:' | awk '{ split ($1, sd, ".");
+		       print "The subdomain "sd[1]" is a "$4" record and points to "$5"" }' |
+	       	tail -n 1
+}
+
+if [ $# -eq 2 ]
+then
+	world_wide_web "$1" "$2"
+else
+	declare -a arr=("www" "lb-01" "web-01" "web-02")
+
+	for i in "${arr[@]}"
+	do
+		world_wide_web "$1" "$i"
+	done
+fi
